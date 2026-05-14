@@ -377,6 +377,15 @@ export default function Home() {
                     <a href="mailto:brijdhararealtech@gmail.com" className="text-xl font-medium tracking-tight hover:text-amber-400 transition-colors">brijdhararealtech@gmail.com</a>
                   </div>
                 </div>
+                <div className="flex items-center gap-5 group">
+                  <div className="w-14 h-14 rounded-2xl border border-white/10 flex items-center justify-center text-amber-400 glass group-hover:bg-amber-400 group-hover:text-black transition-all duration-500">
+                    <MapPin size={24} />
+                  </div>
+                  <div>
+                    <div className="text-[10px] uppercase tracking-widest text-white/30 font-bold mb-1">Our Office</div>
+                    <div className="text-xl font-medium tracking-tight text-white leading-tight">Sonkh Road, Opp. Hanuman Temple,<br />Mathura - 281004</div>
+                  </div>
+                </div>
               </div>
             </div>
 

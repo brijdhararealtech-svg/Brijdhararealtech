@@ -146,15 +146,13 @@ export default function About() {
         </div>
       </section>
 
-      {/* Leadership Section */}
       <section className="py-32 px-6 bg-black/20">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+          <div className="max-w-3xl mx-auto text-center">
             <motion.div 
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="order-2 lg:order-1"
             >
               <span className="text-amber-400 text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block">
                 Visionary Leadership
@@ -163,8 +161,10 @@ export default function About() {
                 Dheeraj Kumar <br />
                 <span className="font-serif italic text-amber-200">Saini</span>
               </h2>
-              <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-bold mb-8 flex items-center gap-4">
-                Head of Company <span className="w-12 h-[1px] bg-white/10"></span> Visionary Developer
+              <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-bold mb-8 flex items-center justify-center gap-4">
+                <span className="w-12 h-[1px] bg-white/10"></span>
+                Head of Company • Visionary Developer
+                <span className="w-12 h-[1px] bg-white/10"></span>
               </div>
               <div className="space-y-6 text-white/60 font-light text-lg leading-relaxed">
                 <p>
@@ -173,34 +173,11 @@ export default function About() {
                 <p>
                   Under his leadership, the company has pioneered transparent practices in Mathura-Vrindavan, ensuring that every plot owner feels secure and connected to the spiritual heritage of the land.
                 </p>
-                <div className="pt-8">
+                <div className="pt-8 flex flex-col items-center">
                    <Quote className="text-amber-400 mb-4" size={32} />
-                   <p className="text-xl font-serif italic text-amber-100">
+                   <p className="text-xl font-serif italic text-amber-100 max-w-2xl">
                      "Our goal is to create spaces where divinity meets modern living, providing a sanctuary for generations to come."
                    </p>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              className="order-1 lg:order-2 relative"
-            >
-              <div className="aspect-[3/4] glass rounded-[2rem] p-3 overflow-hidden">
-                <div className="w-full h-full rounded-[1.5rem] overflow-hidden relative">
-                  <img 
-                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=1600" 
-                    alt="Dheeraj Kumar Saini" 
-                    className="w-full h-full object-cover grayscale brightness-90 hover:grayscale-0 transition-all duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                </div>
-              </div>
-              <div className="absolute -bottom-10 -right-10 w-40 h-40 border border-white/10 rounded-full flex items-center justify-center backdrop-blur-xl bg-white/5 hidden md:flex">
-                <div className="text-[8px] uppercase tracking-[0.5em] text-amber-400 font-bold text-center px-4">
-                  Legacy • Vision • Trust • Heritage •
                 </div>
               </div>
             </motion.div>

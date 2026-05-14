@@ -96,7 +96,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <div className="text-[10px] uppercase tracking-widest text-white/30 font-bold mb-1">Our Office</div>
-                  <div className="text-xl font-medium tracking-tight text-white">Mathura, Uttar Pradesh, India</div>
+                  <div className="text-xl font-medium tracking-tight text-white leading-tight">Sonkh Road, Opp. Hanuman Temple,<br />Mathura - 281004</div>
                 </div>
               </div>
             </div>
