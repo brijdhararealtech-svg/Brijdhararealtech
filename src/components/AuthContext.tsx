@@ -1,8 +1,15 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, onAuthStateChanged } from 'firebase/auth';
-import { auth, googleProvider, signInWithPopup, signOut } from '../lib/firebase';
+import { 
+  auth, 
+  googleProvider, 
+  signInWithPopup, 
+  signInWithRedirect, 
+  getRedirectResult, 
+  signOut,
+  db 
+} from '../lib/firebase';
 import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../lib/firebase';
 
 interface AuthContextType {
   user: User | null;
@@ -22,6 +29,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Handle redirect result (for mobile)
+    getRedirectResult(auth).catch((error) => {
+      console.error("Redirect sign-in error", error);
+      if (error.code === 'auth/unauthorized-domain') {
+        alert("This domain is not authorized in Firebase. Please add this Netlify URL to your Firebase Authorized Domains.");
+      }
+    });
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setIsAdmin(user.email === ADMIN_EMAIL);
@@ -50,13 +65,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signIn = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      // Logic to detect mobile
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      
+      if (isMobile) {
+        // Redirect is much better for mobile browser constraints
+        await signInWithRedirect(auth, googleProvider);
+      } else {
+        // Popups work fine on desktop
+        await signInWithPopup(auth, googleProvider);
+      }
     } catch (error: any) {
       console.error("Sign in failed", error);
       
       // Specifically handle common mobile/deployment errors
       if (error.code === 'auth/popup-blocked') {
-        alert("Sign-in popup was blocked by your browser. Please allow popups for this site and try again.");
+        // Suggest redirect if popup was blocked
+        if (confirm("Sign-in popup was blocked. Would you like to use redirect instead?")) {
+          await signInWithRedirect(auth, googleProvider);
+        }
       } else if (error.code === 'auth/unauthorized-domain') {
         alert("This domain is not authorized in Firebase. Please add this Netlify URL to your Firebase Authorized Domains.");
       } else if (error.code === 'auth/popup-closed-by-user') {
