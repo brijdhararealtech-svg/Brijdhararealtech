@@ -51,8 +51,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signIn = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Sign in failed", error);
+      
+      // Specifically handle common mobile/deployment errors
+      if (error.code === 'auth/popup-blocked') {
+        alert("Sign-in popup was blocked by your browser. Please allow popups for this site and try again.");
+      } else if (error.code === 'auth/unauthorized-domain') {
+        alert("This domain is not authorized in Firebase. Please add this Netlify URL to your Firebase Authorized Domains.");
+      } else if (error.code === 'auth/popup-closed-by-user') {
+        // User closed the popup, no need to alert
+      } else {
+        alert(`Sign-in error: ${error.message}`);
+      }
     }
   };
 
