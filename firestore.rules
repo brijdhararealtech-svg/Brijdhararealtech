@@ -48,7 +48,7 @@ service cloud.firestore {
       allow list, get: if isVerified() && (resource.data.userId == request.auth.uid || isAdmin());
       allow update: if isAdmin() 
         && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'adminResponse'])
-        && incoming().status in ['accepted', 'declined'];
+        && incoming().status in ['pending', 'accepted', 'declined'];
     }
 
     // Site Visits
@@ -70,7 +70,7 @@ service cloud.firestore {
       allow list, get: if isVerified() && (resource.data.userId == request.auth.uid || isAdmin());
       allow update: if isAdmin() 
         && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'adminNotes'])
-        && incoming().status in ['confirmed', 'completed', 'cancelled'];
+        && incoming().status in ['pending', 'confirmed', 'completed', 'cancelled'];
     }
   }
 }

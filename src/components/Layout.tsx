@@ -26,7 +26,7 @@ const Navbar = () => {
 
   const navItems = [...NAV_ITEMS];
   if (user) {
-    navItems.push({ label: 'My Enquiries', href: '/dashboard' });
+    navItems.push({ label: 'My Portal', href: '/portal' });
   }
   if (isAdmin) {
     navItems.push({ label: 'Admin', href: '/admin' });

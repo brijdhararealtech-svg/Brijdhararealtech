@@ -442,18 +442,7 @@ export default function AdminDashboard() {
                                       className="bg-emerald-500 text-white font-bold text-[9px] uppercase tracking-widest py-3 rounded-lg hover:bg-emerald-400 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                                     >
                                       {processingId === visit.id ? <Loader2 size={12} className="animate-spin" /> : <CheckCircle2 size={12} />}
-                                      Confirm
-                                    </button>
-                                    <button 
-                                      onClick={() => {
-                                        const note = (document.getElementById(`visit-note-${visit.id}`) as HTMLTextAreaElement).value;
-                                        handleVisitStatus(visit.id, 'completed', note);
-                                      }}
-                                      disabled={processingId === visit.id}
-                                      className="bg-blue-500 text-white font-bold text-[9px] uppercase tracking-widest py-3 rounded-lg hover:bg-blue-400 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
-                                    >
-                                      {processingId === visit.id ? <Loader2 size={12} className="animate-spin" /> : <ClipboardList size={12} />}
-                                      Done
+                                      Accept Visit
                                     </button>
                                     <button 
                                       onClick={() => {
@@ -464,7 +453,18 @@ export default function AdminDashboard() {
                                       className="bg-red-500 text-white font-bold text-[9px] uppercase tracking-widest py-3 rounded-lg hover:bg-red-400 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                                     >
                                       {processingId === visit.id ? <Loader2 size={12} className="animate-spin" /> : <XCircle size={12} />}
-                                      Cancel
+                                      Decline Visit
+                                    </button>
+                                    <button 
+                                      onClick={() => {
+                                        const note = (document.getElementById(`visit-note-${visit.id}`) as HTMLTextAreaElement).value;
+                                        handleVisitStatus(visit.id, 'completed', note);
+                                      }}
+                                      disabled={processingId === visit.id}
+                                      className="bg-blue-500 text-white font-bold text-[9px] uppercase tracking-widest py-3 rounded-lg hover:bg-blue-400 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                                    >
+                                      {processingId === visit.id ? <Loader2 size={12} className="animate-spin" /> : <ClipboardList size={12} />}
+                                      Mark as Completed
                                     </button>
                                     <button 
                                       onClick={() => {
@@ -474,7 +474,7 @@ export default function AdminDashboard() {
                                       disabled={processingId === visit.id}
                                       className="bg-white/5 border border-white/10 text-white font-bold text-[9px] uppercase tracking-widest py-3 rounded-lg hover:bg-white/10 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                                     >
-                                      Reset
+                                      Reset to Pending
                                     </button>
                                   </div>
                                 </div>

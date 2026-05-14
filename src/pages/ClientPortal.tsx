@@ -3,6 +3,8 @@ import { useAuth } from '../components/AuthContext';
 import { db } from '../lib/firebase';
 import { collection, query, where, orderBy, onSnapshot } from 'firebase/firestore';
 import { Enquiry, Visit } from '../types';
+import { PROJECTS } from '../constants';
+import SiteVisitModal from '../components/SiteVisitModal';
 import { handleFirestoreError, OperationType } from '../lib/firestoreUtils';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -19,12 +21,13 @@ import {
   User as UserIcon
 } from 'lucide-react';
 
-export default function Dashboard() {
+export default function ClientPortal() {
   const { user, loading: authLoading } = useAuth();
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [visits, setVisits] = useState<Visit[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'enquiries' | 'visits'>('enquiries');
+  const [isVisitModalOpen, setIsVisitModalOpen] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -106,10 +109,10 @@ export default function Dashboard() {
           <span className="text-amber-400 text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block">
             Welcome, {user.displayName || 'User'}
           </span>
-          <h1 className="text-4xl md:text-5xl font-light tracking-tight text-white">
-            Client <span className="font-serif italic text-amber-200">Portal</span>
+          <h1 className="text-4xl md:text-6xl font-light tracking-tight text-white">
+            My <span className="font-serif italic text-amber-200">Activity</span>
           </h1>
-          <p className="text-white/40 mt-4 font-light">Manage your journey with Brij Dhara Realtech.</p>
+          <p className="text-white/40 mt-4 font-light max-w-xl">Track your plot enquiries and site visit bookings with Brij Dhara Realtech.</p>
         </div>
 
         {/* Tabs */}
@@ -129,7 +132,7 @@ export default function Dashboard() {
               activeTab === 'visits' ? 'text-amber-400' : 'text-white/40 hover:text-white/70'
             }`}
           >
-            Site Visits ({visits.length})
+            My Bookings ({visits.length})
             {activeTab === 'visits' && <motion.div layoutId="user-tab-active" className="absolute bottom-0 left-0 w-full h-0.5 bg-amber-400" />}
           </button>
         </div>
@@ -212,10 +215,13 @@ export default function Dashboard() {
                   className="text-center py-24 glass rounded-3xl border-white/5"
                 >
                   <MapPin className="text-white/10 mx-auto mb-4" size={48} />
-                  <p className="text-white/30 lowercase tracking-widest text-[10px] uppercase font-bold mb-8">No site visits scheduled</p>
-                  <a href="/about" className="inline-flex items-center gap-2 text-amber-400 text-[10px] font-bold uppercase tracking-[0.2em] border border-amber-400/20 px-6 py-3 rounded-xl hover:bg-amber-400 hover:text-black transition-all">
-                    Schedule a Visit <ArrowRight size={14} />
-                  </a>
+                  <p className="text-white/30 lowercase tracking-widest text-[10px] uppercase font-bold mb-8">No bookings scheduled</p>
+                  <button 
+                    onClick={() => setIsVisitModalOpen(true)}
+                    className="inline-flex items-center gap-2 text-amber-400 text-[10px] font-bold uppercase tracking-[0.2em] border border-amber-400/20 px-6 py-3 rounded-xl hover:bg-amber-400 hover:text-black transition-all"
+                  >
+                    Book a Site Visit <ArrowRight size={14} />
+                  </button>
                 </motion.div>
               ) : (
                 <motion.div 
@@ -293,7 +299,20 @@ export default function Dashboard() {
           </AnimatePresence>
         </div>
 
+        {/* Quick Actions if data exists */}
+        {((activeTab === 'enquiries' && enquiries.length > 0) || (activeTab === 'visits' && visits.length > 0)) && (
+          <div className="mt-12 flex justify-center md:justify-start">
+             <button 
+                onClick={() => setIsVisitModalOpen(true)}
+                className="inline-flex items-center gap-2 bg-amber-400 text-black text-[10px] font-bold uppercase tracking-[0.2em] px-8 py-4 rounded-xl hover:bg-white transition-all shadow-lg shadow-amber-400/10"
+              >
+                New Site Visit Booking <Calendar size={14} />
+              </button>
+          </div>
+        )}
       </div>
+
+      <SiteVisitModal isOpen={isVisitModalOpen} onClose={() => setIsVisitModalOpen(false)} />
     </div>
   );
 }
